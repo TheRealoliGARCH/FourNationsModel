@@ -1,0 +1,39 @@
+{
+  "experiment": "host-nations-v1",
+  "nations": ["USA", "CHE", "FRA", "IND"],
+  "window": {"start": 2000, "end": 2024, "frequency": "A"},
+  "series": {
+    "real_gdp_growth": {"provider": "IMF_WEO", "key": "NGDP_RPCH", "transform": "identity"},
+    "inflation": {"provider": "IMF_WEO", "key": "PCPIPCH", "transform": "identity"},
+    "current_account_gdp": {"provider": "IMF_WEO", "key": "BCA_NGDPD", "transform": "identity"},
+    "government_debt_gdp": {"provider": "IMF_WEO", "key": "GGXWDG_NGDP", "transform": "identity"},
+    "gdp_current_usd": {"provider": "WORLD_BANK", "key": "NY.GDP.MKTP.CD", "transform": "log"},
+    "domestic_credit_gdp": {
+      "provider": "BIS",
+      "flow": "WS_CREDIT",
+      "selection": {"frequency": "Q", "sector": "P", "measure": "credit_to_gdp"},
+      "transform": "annual_mean",
+      "status": "preflight_required"
+    },
+    "real_effective_exchange_rate": {
+      "provider": "BIS",
+      "flow": "WS_EER",
+      "selection": {"frequency": "M", "type": "R", "basket": "B"},
+      "transform": "annual_log_difference",
+      "status": "preflight_required"
+    },
+    "long_term_government_bond_yield": {
+      "provider": "OECD",
+      "dataset": "SDMX", "selection": {"frequency": "A", "concept": "long_term_interest_rate"},
+      "transform": "identity",
+      "status": "coverage_preflight_required"
+    }
+  },
+  "policy": {
+    "provider_metadata_must_be_frozen": true,
+    "fail_closed_on_missing_series": true,
+    "no_imputation": true,
+    "require_full_four_nation_coverage": true,
+    "require_full_window_coverage": true
+  }
+}
