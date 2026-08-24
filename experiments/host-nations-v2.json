@@ -1,0 +1,22 @@
+{
+  "experiment_id": "host-nations-v2",
+  "supersedes": "host-nations-v1",
+  "nations": ["USA", "CHE", "FRA", "IND"],
+  "period": {"start": 2012, "end": 2024, "frequency": "annual"},
+  "features": [
+    {"name": "real_gdp_growth", "source": "IMF_WEO", "series": "NGDP_RPCH"},
+    {"name": "inflation", "source": "IMF_WEO", "series": "PCPIPCH"},
+    {"name": "current_account_gdp", "source": "IMF_WEO", "series": "BCA_NGDPD"},
+    {"name": "government_debt_gdp", "source": "IMF_WEO", "series": "GGXWDG_NGDP"},
+    {"name": "gdp_usd", "source": "WORLD_BANK", "series": "NY.GDP.MKTP.CD", "transform": "log"},
+    {"name": "credit_gdp", "source": "BIS", "semantic": "total credit to non-financial sector, percentage of GDP"},
+    {"name": "reer_change", "source": "BIS", "semantic": "real effective exchange rate, log difference"},
+    {"name": "long_term_yield", "source": "OECD", "semantic": "IRLT, percent per annum"}
+  ],
+  "coverage_policy": "fail_closed",
+  "provider_key_policy": "metadata_resolved_and_recorded",
+  "normalization": "within_year_cross_sectional_zscore",
+  "candidate_perturbations": [-0.01, 0.0, 0.01],
+  "tolerance_audit": {"levels": 5, "require_invariant_classification": true, "require_invariant_support_cardinality": true},
+  "release_condition": "all_eight_features_complete_for_all_four_nations_over_full_window"
+}
