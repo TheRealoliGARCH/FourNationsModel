@@ -1,0 +1,25 @@
+{
+  "experiment_id": "host-nations-v1",
+  "nations": ["USA", "CHE", "FRA", "IND"],
+  "frequency": "annual",
+  "observation_window": {"start": "2000", "end": "2024"},
+  "alignment": "calendar_year_intersection",
+  "missing_data_policy": "fail_closed",
+  "imputation": "none",
+  "features": [
+    {"name": "real_gdp_growth", "provider": "IMF", "dataset": "WEO", "semantic": "annual real GDP growth", "transform": "identity"},
+    {"name": "consumer_price_inflation", "provider": "IMF", "dataset": "WEO", "semantic": "annual consumer-price inflation", "transform": "identity"},
+    {"name": "current_account_pct_gdp", "provider": "IMF", "dataset": "WEO", "semantic": "current-account balance as percent of GDP", "transform": "identity"},
+    {"name": "general_government_debt_pct_gdp", "provider": "IMF", "dataset": "WEO", "semantic": "general-government gross debt as percent of GDP", "transform": "identity"},
+    {"name": "gdp_current_usd", "provider": "WORLD_BANK", "series_id": "NY.GDP.MKTP.CD", "transform": "log"},
+    {"name": "domestic_credit_pct_gdp", "provider": "BIS", "dataset": "credit_to_nonfinancial_sector", "semantic": "domestic credit to non-financial sector relative to GDP", "transform": "identity"},
+    {"name": "real_effective_exchange_rate", "provider": "BIS", "dataset": "effective_exchange_rates", "semantic": "real effective exchange-rate index", "transform": "log_difference"},
+    {"name": "long_term_interest_rate", "provider": "OECD", "dataset": "SDMX configurable", "semantic": "harmonised long-term government bond yield where coverage permits", "transform": "identity"}
+  ],
+  "standardization": {"method": "cross_sectional_zscore", "scope": "within_feature_within_year", "zero_variance": "fail_closed"},
+  "candidate_geometry": {"method": "symmetric_relative_perturbation", "grid": [-0.01, 0.0, 0.01]},
+  "relational_statistics": ["pairwise_euclidean_distance", "feature_rank_signature"],
+  "causal_restrictions": "versioned_and_declared_before_execution",
+  "tolerance_audit": {"initial_residual_tolerance": 1e-08, "levels": 5, "shrink": 0.1, "initial_digits": 50, "digits_step": 25},
+  "execution_policy": {"shard_size": 128, "strict_complete_search": true, "retry_failed_shards": true}
+}
