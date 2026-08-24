@@ -1,0 +1,29 @@
+{
+  "experiment": "host-nations-v1",
+  "status": "blocked_pending_complete_coverage",
+  "countries": ["USA", "CHE", "FRA", "IND"],
+  "window": [2000, 2024],
+  "confirmed": {
+    "imf_weo": {
+      "NGDP_RPCH": "real GDP growth",
+      "PCPIPCH": "consumer price inflation",
+      "BCA_NGDPD": "current account balance / GDP",
+      "GGXWDG_NGDP": "general government gross debt / GDP"
+    },
+    "world_bank_wdi": {
+      "NY.GDP.MKTP.CD": "GDP, current US dollars"
+    },
+    "bis": {
+      "credit_semantics": "credit to the non-financial sector, percentage of GDP",
+      "reer_semantics": "real effective exchange rate",
+      "resolution_policy": "freeze exact SDMX keys only after metadata resolution"
+    },
+    "oecd": {
+      "dataflow": "OECD.SDD.STES,DSD_KEI@DF_KEI,4.0",
+      "measure": "IRLT",
+      "unit": "PA",
+      "resolution_policy": "require annual complete coverage for all four economies"
+    }
+  },
+  "blocking_rule": "Any required feature without complete USA/CHE/FRA/IND annual coverage over 2000-2024 blocks execution; no proxy, interpolation, or dimensional reduction is automatic."
+}
