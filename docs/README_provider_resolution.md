@@ -1,0 +1,1 @@
+See `provider_resolution_findings.md` for exact metadata findings used by the empirical coverage gate. The findings preserve unresolved and ambiguous provider states rather than inferring aggregate series from naming patterns or components.
