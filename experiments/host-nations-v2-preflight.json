@@ -1,0 +1,32 @@
+{
+  "experiment": "host-nations-v2",
+  "nations": ["USA", "CHE", "FRA", "IND"],
+  "window": {"start": "2012", "end": "2024", "frequency": "A"},
+  "resolution": {
+    "BIS_REER": {
+      "provider": "BIS",
+      "dataflow": "WS_EER",
+      "semantic_selector": {"frequency": "M", "type": "R", "basket": "B", "reference_area": "USA|CH|FR|IN"},
+      "annualization": "calendar_year_mean",
+      "status": "metadata_resolved_required"
+    },
+    "BIS_CREDIT_GDP": {
+      "provider": "BIS",
+      "semantic_selector": {"measure": "credit_to_non_financial_sector", "unit": "percentage_of_GDP", "reference_area": "USA|CH|FR|IN"},
+      "status": "metadata_resolved_required"
+    },
+    "OECD_IRLT": {
+      "provider": "OECD",
+      "dataflow": "DSD_STES@DF_FINMARK",
+      "semantic_selector": {"frequency": "A", "measure": "IRLT", "reference_area": "USA|CHE|FRA|IND"},
+      "status": "metadata_resolved_required"
+    }
+  },
+  "acceptance": {
+    "required_years": 13,
+    "missing_values": 0,
+    "allow_proxy": false,
+    "allow_imputation": false,
+    "require_exact_keys": true
+  }
+}
