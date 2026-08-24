@@ -1,0 +1,23 @@
+{
+  "experiment": "host-nations-v2-resolved",
+  "window": [2012, 2024],
+  "credit_gdp": {
+    "USA": ["Q.US.C.A.M.770.A"],
+    "CHE": ["Q.CH.N.A.M.770.A", "Q.CH.H.A.M.770.A", "Q.CH.G.A.M.770.A"],
+    "FRA": ["Q.FR.C.A.M.770.A"],
+    "IND": ["Q.IN.C.A.M.770.A"],
+    "aggregation": {"CHE": "N + H + G, each percentage of GDP"}
+  },
+  "long_term_rate": {
+    "provider": "OECD.SDD.STES/DF_FINMARK",
+    "keys": {
+      "USA": "USA.M.IRLT.PA.....",
+      "CHE": "CHE.M.IRLT.PA.....",
+      "FRA": "FRA.M.IRLT.PA.....",
+      "IND": "IND.M.IRLT.PA....."
+    },
+    "annualization": "calendar-year arithmetic mean of 12 monthly observations",
+    "coverage_requirement": "complete months for every year 2012-2024"
+  },
+  "admission": "fail closed on any missing component or monthly observation"
+}
