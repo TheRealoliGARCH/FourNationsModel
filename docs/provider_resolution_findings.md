@@ -19,18 +19,11 @@ Confirmed aggregate non-financial-sector keys:
 - France: `Q.FR.C.A.M.770.A`
 - India: `Q.IN.C.A.M.770.A`
 
-For Switzerland, provider-returned evidence confirms component keys including:
-
-- `Q.CH.N.A.M.770.A` — non-financial corporations;
-- `Q.CH.H.A.M.770.A` — households and NPISHs;
-- `Q.CH.P.A.M.770.A` — private non-financial sector;
-- `Q.CH.G.A.M.770.A` — general government.
-
-No aggregate Swiss `Q.CH.C.A.M.770.A` key is recorded here. Therefore Swiss `credit_gdp` remains unresolved and cannot be synthesized by summing components without an explicit, separately versioned transformation rule.
+For Switzerland, provider-returned evidence confirms component keys including non-financial corporations, households and NPISHs, private non-financial sector, and general government. No aggregate Swiss `Q.CH.C.A.M.770.A` key is admitted without exact provider confirmation.
 
 ## OECD IRLT
 
-The long-term-rate feature remains unresolved pending provider-returned exact keys and complete 2012--2024 coverage for USA, CHE, FRA and IND.
+The long-term-rate feature remains unresolved pending exact provider keys and complete 2012--2024 coverage for USA, CHE, FRA and IND.
 
 ## Gate status
 
