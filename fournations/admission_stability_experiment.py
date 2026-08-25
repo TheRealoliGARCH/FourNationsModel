@@ -5,16 +5,20 @@ from pathlib import Path
 from typing import Mapping
 
 from .admission_robustness import admission_flip_pairs, invariant_admissions, robustness_score
-from .scenario_generation import PerturbationGrid, ScenarioParameters, generate_scenarios
+from .calibrated_admission_evaluator import NationCalibration, evaluate_calibrated_posteriors
+from .scenario_generation import PerturbationGrid, generate_scenarios
 
 
-def scaled_posteriors(baseline: Mapping[str, float], parameters: ScenarioParameters) -> dict[str, float]:
-    scale = parameters.prior_multiplier * parameters.empirical_multiplier * parameters.revelation_multiplier
-    return {nation: min(max(float(posterior) * scale, 0.0), 1.0) for nation, posterior in baseline.items()}
-
-
-def run_experiment(baseline: Mapping[str, float], grid: PerturbationGrid, *, seats: int = 4) -> dict[str, object]:
-    scenarios = generate_scenarios(grid, lambda parameters: scaled_posteriors(baseline, parameters))
+def run_experiment(
+    calibrations: Mapping[str, NationCalibration],
+    grid: PerturbationGrid,
+    *,
+    seats: int = 4,
+) -> dict[str, object]:
+    scenarios = generate_scenarios(
+        grid,
+        lambda parameters: evaluate_calibrated_posteriors(calibrations, parameters),
+    )
     return {
         "scenarios": scenarios,
         "invariant_admissions": invariant_admissions(scenarios, seats=seats),
