@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, Mapping
 
-from .feature_bindings import FEATURE_BINDINGS
 from .live_retrieval import RetrievalRun, retrieve_live
+from .provider_bindings import bindings
 from .snapshot_admission import manifest
 
 CellFetcher = Callable[[str, int, str], float]
@@ -33,6 +33,7 @@ def execute(fetcher: CellFetcher, *, experiment_id: str, provider_keys: Mapping[
 
 def bound_provider_keys() -> dict[str, str]:
     keys: dict[str, str] = {}
-    for feature, binding in FEATURE_BINDINGS.items():
-        keys[feature] = str(binding)
+    for binding in bindings():
+        scope = binding.nation or "ALL"
+        keys[f"{binding.feature}:{scope}"] = ",".join(binding.series)
     return keys
