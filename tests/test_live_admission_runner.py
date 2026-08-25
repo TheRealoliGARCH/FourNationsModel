@@ -6,10 +6,10 @@ from fournations.live_retrieval import RetrievalRun
 from fournations.snapshot_admission import AdmissionResult
 
 
-def _result(status, missing=(), manifest=None):
+def _result(status, missing=(), manifest=None, panel=None):
     run = RetrievalRun(
         result=AdmissionResult(status=status, missing=tuple(missing)),
-        panel={"USA": {2013: {"gdp_growth": 2.0}}},
+        panel=panel or {"USA": {2013: {"gdp_growth": 2.0}}},
         retrieved_at="2026-08-25T00:00:00Z",
     )
     return EndToEndResult(run=run, snapshot_manifest=manifest)
@@ -29,6 +29,23 @@ def test_ready_report_preserves_manifest():
     manifest = {"shape": {"cells": 416}}
     payload = report(_result("ready_for_snapshot", manifest=manifest), experiment_id="host-nations-v2")
     assert payload["snapshot_manifest"] == manifest
+
+
+def test_tuple_keyed_panel_is_json_safe(tmp_path):
+    payload = report(
+        _result(
+            "blocked_incomplete_coverage",
+            panel={("USA", 2013, "gdp_growth"): 2.0, ("CHE", 2017, "credit_gdp"): None},
+        ),
+        experiment_id="host-nations-v2",
+    )
+    assert payload["panel"] == [
+        {"nation": "CHE", "year": 2017, "feature": "credit_gdp", "value": None},
+        {"nation": "USA", "year": 2013, "feature": "gdp_growth", "value": 2.0},
+    ]
+    path = tmp_path / "admission.json"
+    write_report(path, payload)
+    assert json.loads(path.read_text(encoding="utf-8")) == payload
 
 
 def test_report_is_persisted_as_json(tmp_path):
