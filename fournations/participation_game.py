@@ -4,6 +4,9 @@ from dataclasses import dataclass
 from math import isfinite
 
 
+_DECISION_TOLERANCE = 1e-12
+
+
 @dataclass(frozen=True)
 class ParticipationDecision:
     admission_probability_without_revelation: float
@@ -46,7 +49,7 @@ class ParticipationDecision:
 
     @property
     def should_reveal(self) -> bool:
-        return self.participation_margin >= 0.0
+        return self.participation_margin >= -_DECISION_TOLERANCE
 
 
 def minimum_admission_gain(
