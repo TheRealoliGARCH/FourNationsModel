@@ -14,7 +14,7 @@ class ConcreteSDMXFetchers:
     def __init__(self, transport: UrlTransport | None = None):
         self.transport = transport or UrlTransport()
 
-    def bis_reer(self, nation: str, year: int) -> float:
+    def bis_reer(self, nation: str, year: int) -> tuple[float, float]:
         url = bis_csv_url("WS_EER", BIS_REER[nation], year - 1, year)
         payload = self.transport.get_csv_observations(url)
         current = annual_from_monthly(payload, year)
