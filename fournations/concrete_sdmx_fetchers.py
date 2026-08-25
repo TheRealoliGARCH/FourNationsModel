@@ -15,12 +15,12 @@ class ConcreteSDMXFetchers:
         self.transport = transport or UrlTransport()
 
     def bis_reer(self, nation: str, year: int) -> tuple[float, float]:
-        current_url = bis_csv_url("WS_EER", BIS_REER[nation], year, year)
         previous_url = bis_csv_url("WS_EER", BIS_REER[nation], year - 1, year - 1)
-        current_payload = self.transport.get_csv_observations(current_url)
+        current_url = bis_csv_url("WS_EER", BIS_REER[nation], year, year)
         previous_payload = self.transport.get_csv_observations(previous_url)
-        current = annual_from_monthly(current_payload, year)
+        current_payload = self.transport.get_csv_observations(current_url)
         previous = annual_from_monthly(previous_payload, year - 1)
+        current = annual_from_monthly(current_payload, year)
         return current, previous
 
     def bis_credit(self, nation: str, year: int) -> float:
