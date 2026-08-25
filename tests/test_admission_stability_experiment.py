@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from empirical.run_admission_stability_experiment import (
     run_experiment,
     scaled_posteriors,
@@ -23,8 +25,8 @@ def grid():
 def test_scaled_posteriors_apply_explicit_combined_multiplier():
     parameters = ScenarioParameters(1.0, 1.1, 1.0)
     scaled = scaled_posteriors(baseline(), parameters)
-    assert scaled["A"] == 0.99
-    assert scaled["E"] == 0.55
+    assert scaled["A"] == pytest.approx(0.99)
+    assert scaled["E"] == pytest.approx(0.55)
 
 
 def test_experiment_runs_full_factorial_grid():
