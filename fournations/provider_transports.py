@@ -19,7 +19,7 @@ class Response:
 class UrlTransport:
     """Minimal injectable HTTP transport with explicit response decoding."""
 
-    def __init__(self, opener: Callable[..., Any] | None = None, timeout: float = 30.0):
+    def __init__(self, opener: Callable[..., Any] | None = None, timeout: float = 10.0):
         self._opener = opener or urlopen
         self.timeout = timeout
 
