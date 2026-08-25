@@ -20,7 +20,7 @@ dev = ["pytest>=8.0"]
 parallel = ["ray>=2.30", "dask[distributed]>=2024.5"]
 
 [tool.setuptools.packages.find]
-include = ["fournations*"]
+include = ["fournations*", "scripts*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
