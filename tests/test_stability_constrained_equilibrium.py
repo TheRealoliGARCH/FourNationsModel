@@ -2,7 +2,7 @@ from fournations.endogenous_deterrence_equilibrium import (
     CandidateStrategy,
     EndogenousDeterrenceGame,
 )
-from fournations.sn0g_epistemic_stability import EpistemicState, StabilityGate
+from fournations.sn0g_stability_gate import EpistemicState
 from fournations.systemic_stability import StabilityWeights
 from fournations.stability_constrained_equilibrium import (
     solve_stability_constrained_equilibrium,
@@ -23,15 +23,24 @@ def game():
     )
 
 
+def states(uncertainty=0.0):
+    return {
+        name: EpistemicState(
+            known=uncertainty == 0.0,
+            prior_probability=strategy.baseline_probability,
+            unknown_uncertainty=uncertainty,
+        )
+        for name, strategy in game().candidates.items()
+    }
+
+
 def test_stable_fixed_point_is_admissible():
     result = solve_stability_constrained_equilibrium(
         game(),
-        EpistemicState(unknown_uncertainty=0.0),
-        StabilityGate(
-            threshold=1.0,
-            epistemic_weight=0.0,
-            stability_weights=StabilityWeights(0.0, 0.0, 0.0),
-        ),
+        states(),
+        threshold=1.0,
+        epistemic_weight=0.0,
+        stability_weights=StabilityWeights(0.0, 0.0, 0.0),
     )
     assert result["strategic_fixed_point"]
     assert result["systemically_admissible"]
@@ -42,12 +51,10 @@ def test_stable_fixed_point_is_admissible():
 def test_unstable_fixed_point_is_rejected():
     result = solve_stability_constrained_equilibrium(
         game(),
-        EpistemicState(unknown_uncertainty=1.0),
-        StabilityGate(
-            threshold=0.5,
-            epistemic_weight=1.0,
-            stability_weights=StabilityWeights(0.0, 0.0, 0.0),
-        ),
+        states(1.0),
+        threshold=0.5,
+        epistemic_weight=1.0,
+        stability_weights=StabilityWeights(0.0, 0.0, 0.0),
     )
     assert result["strategic_fixed_point"]
     assert not result["systemically_admissible"]
@@ -57,12 +64,10 @@ def test_unstable_fixed_point_is_rejected():
 def test_no_fixed_point_is_not_admissible():
     result = solve_stability_constrained_equilibrium(
         game(),
-        EpistemicState(unknown_uncertainty=0.0),
-        StabilityGate(
-            threshold=1.0,
-            epistemic_weight=0.0,
-            stability_weights=StabilityWeights(0.0, 0.0, 0.0),
-        ),
+        states(),
+        threshold=1.0,
+        epistemic_weight=0.0,
+        stability_weights=StabilityWeights(0.0, 0.0, 0.0),
         max_iterations=0,
     )
     assert not result["strategic_fixed_point"]
