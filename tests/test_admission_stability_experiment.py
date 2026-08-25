@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from empirical.run_admission_stability_experiment import (
+from fournations.admission_stability_experiment import (
     run_experiment,
     scaled_posteriors,
     write_scenario_results,
